@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 terraform {
-  required_version = ">= 1.4.5"
+  required_version = ">= 1.3.5"
 
   required_providers {
     google = {
@@ -13,6 +13,7 @@ terraform {
       source  = "hashicorp/google-beta"
       version = "5.16.0"
     }
+
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = "~> 2.25" # Constrained by Google

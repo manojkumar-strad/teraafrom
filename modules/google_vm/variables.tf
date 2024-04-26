@@ -35,13 +35,13 @@ variable "create_public_ip" {
 variable "tags" {
   description = "Map of common tags to be placed on the Resources"
   type        = map(any)
-  default     = { project_name = "viya401", cost_center = "rnd", environment = "dev" }
+  default     = { project_name = "apdcl-421407", environment = "prod" }
 }
 
 variable "machine_type" {
   description = "Machine type of the VM to be created"
   type        = string
-  default     = "n2-standard-4"
+  default     = "n2-standard-8"
 }
 
 variable "user_data" {
@@ -65,7 +65,7 @@ variable "ssh_public_key" {
 variable "os_image" {
   description = "OS Image to configure the VM with"
   type        = string
-  default     = "ubuntu-os-cloud/ubuntu-2004-lts" # FAMILY/PROJECT glcoud compute images list
+  default     = "rhel-cloud/rhel-9" # FAMILY/PROJECT glcoud compute images list
 }
 
 
@@ -78,7 +78,7 @@ variable "data_disk_count" {
 variable "data_disk_size" {
   description = "Size of the compute disks associated with the VM"
   type        = number
-  default     = 128
+  default     = 200
 }
 
 variable "data_disk_type" {

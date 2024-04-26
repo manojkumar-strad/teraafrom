@@ -11,7 +11,7 @@
 #                   of that output you must remove all newlines and store this as a single
 #                   line entry as a variable
 #
-provider "google" {
+ /*provider "google" {
   credentials = var.service_account_keyfile != null ? can(file(var.service_account_keyfile)) ? file(var.service_account_keyfile) : null : null
   project     = var.project
 }
@@ -19,7 +19,8 @@ provider "google" {
 provider "google-beta" {
   credentials = var.service_account_keyfile != null ? can(file(var.service_account_keyfile)) ? file(var.service_account_keyfile) : null : null
   project     = var.project
-}
+}*/
+
 provider "kubernetes" {
   host                   = "https://${module.gke.endpoint}"
   cluster_ca_certificate = base64decode(module.gke.ca_certificate)
@@ -239,7 +240,7 @@ resource "local_file" "kubeconfig" {
 }
 
 # Module Registry - https://registry.terraform.io/modules/GoogleCloudPlatform/sql-db/google/12.0.0/submodules/postgresql
-module "postgresql" {
+/*module "postgresql" {
   source     = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
   version    = "~> 19.0.0"
   project_id = var.project
@@ -290,8 +291,9 @@ module "postgresql" {
     ]
   }
 }
+*/
 
-module "sql_proxy_sa" {
+/* module "sql_proxy_sa" {
   source        = "terraform-google-modules/service-accounts/google"
   version       = "~> 4.2.2"
   count         = var.postgres_servers != null ? length(var.postgres_servers) != 0 ? 1 : 0 : 0
@@ -300,4 +302,4 @@ module "sql_proxy_sa" {
   names         = ["sql-proxy-sa"]
   project_roles = ["${var.project}=>roles/cloudsql.admin"]
   display_name  = "IAC-managed service account for cluster ${var.prefix} and sql-proxy integration."
-}
+} */

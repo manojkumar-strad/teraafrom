@@ -35,6 +35,7 @@ variable "service_account_keyfile" {
 variable "project" {
   description = "The ID of the GCP Project to use"
   type        = string
+  default = "apdcl-421407"
 }
 
 variable "tf_enterprise_integration_enabled" {
@@ -145,7 +146,7 @@ variable "create_jump_public_ip" {
 variable "jump_rwx_filestore_path" {
   description = "OS path used for NFS integration"
   type        = string
-  default     = "/viya-share"
+  default     = "/apdcl-share"
 }
 
 # NFS VM
@@ -164,7 +165,7 @@ variable "nfs_vm_type" {
 variable "nfs_raid_disk_size" {
   description = "Size in Gb for each disk of the RAID5 cluster"
   type        = number
-  default     = 128
+  default     = 200
 }
 
 variable "create_nfs_public_ip" {
@@ -194,7 +195,7 @@ variable "minimum_initial_nodes" {
 variable "default_nodepool_vm_type" {
   description = "Type of the default nodepool VMs"
   type        = string
-  default     = "e2-standard-8"
+  default     = "n2-standard-8"
 }
 
 variable "default_nodepool_local_ssd_count" {
@@ -206,13 +207,13 @@ variable "default_nodepool_local_ssd_count" {
 variable "default_nodepool_os_disk_size" {
   description = "Disk size for default nodepool VMs in GB"
   type        = number
-  default     = 128
+  default     = 200
 }
 
 variable "default_nodepool_max_nodes" {
   description = "Maximum number of nodes for the default nodepool"
   type        = number
-  default     = 5
+  default     = 6
 }
 
 variable "default_nodepool_min_nodes" {
@@ -255,10 +256,10 @@ variable "node_pools" {
   }))
   default = {
     cas = {
-      "vm_type"      = "n1-highmem-16"
-      "os_disk_size" = 200
+      "vm_type"      = "n2-custom-16-131072"
+      "os_disk_size" = 600
       "min_nodes"    = 1
-      "max_nodes"    = 5
+      "max_nodes"    = 1
       "node_taints"  = ["workload.sas.com/class=cas:NoSchedule"]
       "node_labels" = {
         "workload.sas.com/class" = "cas"
@@ -268,10 +269,10 @@ variable "node_pools" {
       "accelerator_type"  = ""
     },
     compute = {
-      "vm_type"      = "n1-highmem-16"
-      "os_disk_size" = 200
+      "vm_type"      = "n2-custom-8-65536"
+      "os_disk_size" = 600
       "min_nodes"    = 1
-      "max_nodes"    = 5
+      "max_nodes"    = 1
       "node_taints"  = ["workload.sas.com/class=compute:NoSchedule"]
       "node_labels" = {
         "workload.sas.com/class"        = "compute"
@@ -281,11 +282,25 @@ variable "node_pools" {
       "accelerator_count" = 0
       "accelerator_type"  = ""
     },
-    stateless = {
-      "vm_type"      = "e2-standard-16"
+    esp = {
+      "vm_type"      = "n2-custom-8-65536"
       "os_disk_size" = 200
       "min_nodes"    = 1
-      "max_nodes"    = 5
+      "max_nodes"    = 1
+      "node_taints"  = ["workload.sas.com/class=compute:NoSchedule"]
+      "node_labels" = {
+        "workload.sas.com/class"        = "esp"
+        "launcher.sas.com/prepullImage" = "sas-programming-environment"
+      }
+      "local_ssd_count"   = 0
+      "accelerator_count" = 0
+      "accelerator_type"  = ""
+    },
+    stateless = {
+      "vm_type"      = "n2-custom-16-131072"
+      "os_disk_size" = 200
+      "min_nodes"    = 1
+      "max_nodes"    = 1
       "node_taints"  = ["workload.sas.com/class=stateless:NoSchedule"]
       "node_labels" = {
         "workload.sas.com/class" = "stateless"
@@ -295,10 +310,10 @@ variable "node_pools" {
       "accelerator_type"  = ""
     },
     stateful = {
-      "vm_type"      = "e2-standard-8"
-      "os_disk_size" = 200
-      "min_nodes"    = 1
-      "max_nodes"    = 3
+      "vm_type"      = "n2-custom-8-65536"
+      "os_disk_size" = 800
+      "min_nodes"    = 2
+      "max_nodes"    = 2
       "node_taints"  = ["workload.sas.com/class=stateful:NoSchedule"]
       "node_labels" = {
         "workload.sas.com/class" = "stateful"
